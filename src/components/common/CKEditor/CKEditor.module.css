@@ -1,0 +1,663 @@
+/* Editor wrapper */
+
+.editorWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Main editor */
+
+.editor {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+  outline: none;
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+/* Editor hover */
+
+.editor:hover {
+  border-color: #60a5fa;
+  background-color: #f8fbff;
+}
+
+/* Editor focus */
+
+.editor:focus-within {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+/* Editor error */
+
+.editorError {
+  border-color: #dc2626;
+}
+
+.editorError:hover {
+  border-color: #ef4444;
+}
+
+.editorError:focus-within {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+}
+
+/* CKEditor root */
+
+.editor :global(.ck.ck-editor) {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+/* Editor top section */
+
+.editor :global(.ck.ck-editor__top) {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 100;
+}
+
+/* Toolbar */
+
+.editor :global(.ck.ck-toolbar) {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0.45rem 0.6rem;
+  border: none !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-radius: 0 !important;
+  background: #f8fafc !important;
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 1000;
+  isolation: isolate;
+  transition:
+    background-color 0.25s ease,
+    border-bottom-color 0.25s ease;
+}
+
+/* Remove CKEditor toolbar pseudo elements */
+
+.editor :global(.ck.ck-toolbar::before),
+.editor :global(.ck.ck-toolbar::after) {
+  content: none !important;
+  display: none !important;
+}
+
+/* Toolbar hover */
+
+.editor:hover :global(.ck.ck-toolbar) {
+  background-color: #f8fbff !important;
+  border-bottom-color: #dbeafe !important;
+}
+
+/* Toolbar focus */
+
+.editor:focus-within :global(.ck.ck-toolbar) {
+  border-bottom-color: #dbeafe !important;
+}
+
+/* Toolbar items */
+
+.editor :global(.ck.ck-toolbar__items) {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: visible !important;
+}
+
+/* Toolbar buttons */
+
+.editor :global(.ck.ck-toolbar .ck-button) {
+  border-radius: 6px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Toolbar button hover */
+
+.editor :global(.ck.ck-toolbar .ck-button:hover) {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Toolbar active button */
+
+.editor :global(.ck.ck-toolbar .ck-button.ck-on) {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Toolbar button focus */
+
+.editor :global(.ck.ck-toolbar .ck-button:focus),
+.editor :global(.ck.ck-toolbar .ck-button:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Editor main section */
+
+.editor :global(.ck.ck-editor__main) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: none !important;
+  background: #ffffff;
+  position: relative;
+  z-index: 1;
+  overflow: hidden !important;
+  border-radius: 0 0 10px 10px !important;
+}
+
+/* Editable area */
+
+.editor :global(.ck.ck-editor__editable) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 320px;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem;
+  border: none !important;
+  border-radius: 0 0 10px 10px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #1e293b;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+  transition: background-color 0.25s ease;
+}
+
+/* Editable area hover */
+
+.editor :global(.ck.ck-editor__editable:hover) {
+  background-color: #f8fbff;
+}
+
+/* Editable area focus */
+
+.editor :global(.ck.ck-editor__editable:focus),
+.editor :global(.ck.ck-editor__editable.ck-focused) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #ffffff;
+}
+
+/* Editor content */
+
+.editor :global(.ck-content) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Paragraph */
+
+.editor :global(.ck-content p) {
+  max-width: 100%;
+  margin: 0 0 0.8rem;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Headings */
+
+.editor :global(.ck-content h1),
+.editor :global(.ck-content h2),
+.editor :global(.ck-content h3),
+.editor :global(.ck-content h4) {
+  max-width: 100%;
+  color: #1e293b;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Links */
+
+.editor :global(.ck-content a) {
+  color: #2563eb;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Lists */
+
+.editor :global(.ck-content ul),
+.editor :global(.ck-content ol) {
+  max-width: 100%;
+  padding-left: 1.5rem;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* List items */
+
+.editor :global(.ck-content li) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Blockquote */
+
+.editor :global(.ck-content blockquote) {
+  max-width: 100%;
+  box-sizing: border-box;
+  border-left: 4px solid #2563eb;
+  padding-left: 1rem;
+  color: #475569;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Code block */
+
+.editor :global(.ck-content pre) {
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: #f1f5f9;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Tables */
+
+.editor :global(.ck-content table) {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  table-layout: fixed;
+}
+
+/* Table cells */
+
+.editor :global(.ck-content table td),
+.editor :global(.ck-content table th) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Images */
+
+.editor :global(.ck-content img) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Character counter */
+
+.characterCount {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: -0.25rem;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+/* Character counter error */
+
+.characterCountError {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Character limit message */
+
+.characterLimitMessage {
+  color: #dc2626;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Editor loading */
+
+.editorLoading {
+  margin: 0;
+  padding: 1rem;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* CKEditor dropdown */
+
+.editor :global(.ck.ck-dropdown) {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Dropdown button */
+
+.editor :global(.ck.ck-dropdown .ck-dropdown__button) {
+  border-radius: 7px !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Dropdown button hover */
+
+.editor :global(.ck.ck-dropdown .ck-dropdown__button:hover) {
+  background-color: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+/* Dropdown button open */
+
+.editor :global(.ck.ck-dropdown.ck-dropdown_open .ck-dropdown__button) {
+  background-color: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+/* Dropdown panel */
+
+.editor :global(.ck.ck-dropdown__panel) {
+  z-index: 999999 !important;
+  margin-top: 0.4rem !important;
+  padding: 0.35rem !important;
+  border: 1px solid #dbe3ef !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  background-clip: padding-box;
+  box-shadow:
+    0 12px 30px rgba(15, 23, 42, 0.1),
+    0 5px 12px rgba(15, 23, 42, 0.06) !important;
+  transform-origin: top left;
+  animation: ckDropdownOpen 0.24s ease-out;
+  will-change: opacity, transform;
+}
+
+/* Dropdown open state */
+
+.editor :global(.ck.ck-dropdown.ck-dropdown_open .ck-dropdown__panel) {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Dropdown list */
+
+.editor :global(.ck.ck-dropdown__panel .ck-list) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Dropdown list items */
+
+.editor :global(.ck.ck-dropdown__panel .ck-list__item) {
+  margin: 2px 0 !important;
+}
+
+/* Dropdown list buttons */
+
+.editor :global(.ck.ck-dropdown__panel .ck-list__item .ck-button) {
+  width: 100%;
+  min-height: 36px;
+  padding: 0.45rem 0.7rem !important;
+  border-radius: 7px !important;
+  color: #334155 !important;
+  background: transparent !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Dropdown list button hover */
+
+.editor
+  :global(.ck.ck-dropdown__panel .ck-list__item .ck-button:hover) {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  transform: translateX(2px);
+}
+
+/* Dropdown list button active */
+
+.editor
+  :global(.ck.ck-dropdown__panel .ck-list__item .ck-button.ck-on) {
+  background-color: #dbeafe !important;
+  color: #1d4ed8 !important;
+  font-weight: 600;
+}
+
+/* Heading dropdown arrow */
+.editor
+  :global(.ck.ck-heading-dropdown .ck-dropdown__button .ck-dropdown__arrow) {
+  transition: transform 0.25s ease !important;
+  transform-origin: center !important;
+}
+
+/* Heading dropdown open */
+.editor
+  :global(.ck.ck-heading-dropdown.ck-dropdown_open .ck-dropdown__button .ck-dropdown__arrow) {
+  transform: rotate(180deg) !important;
+}
+
+/* Dropdown animation */
+
+@keyframes ckDropdownOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* General dropdown scrollbar */
+
+.editor :global(.ck.ck-dropdown__panel) {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* General dropdown scrollbar - Chrome / Edge / Safari */
+
+.editor
+  :global(.ck.ck-dropdown__panel::-webkit-scrollbar) {
+  width: 6px;
+  height: 6px;
+}
+
+.editor
+  :global(.ck.ck-dropdown__panel::-webkit-scrollbar-track) {
+  background: transparent;
+}
+
+.editor
+  :global(.ck.ck-dropdown__panel::-webkit-scrollbar-thumb) {
+  background-color: #cbd5e1;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.editor
+  :global(.ck.ck-dropdown__panel::-webkit-scrollbar-thumb:hover) {
+  background-color: #94a3b8;
+}
+
+/* Font family dropdown */
+
+.editor
+  :global(.ck.ck-font-family-dropdown .ck-dropdown__panel) {
+  max-height: 320px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #cbd5e1 transparent !important;
+}
+
+/* Font family dropdown list */
+
+.editor
+  :global(.ck.ck-font-family-dropdown .ck-dropdown__panel .ck-list) {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Font family dropdown list items */
+
+.editor
+  :global(
+    .ck.ck-font-family-dropdown .ck-dropdown__panel .ck-list__items
+  ) {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Font family scrollbar - Chrome / Edge / Safari */
+
+.editor
+  :global(
+    .ck.ck-font-family-dropdown .ck-dropdown__panel::-webkit-scrollbar
+  ) {
+  width: 6px;
+}
+
+.editor
+  :global(
+    .ck.ck-font-family-dropdown .ck-dropdown__panel::-webkit-scrollbar-track
+  ) {
+  background: transparent;
+}
+
+.editor
+  :global(
+    .ck.ck-font-family-dropdown .ck-dropdown__panel::-webkit-scrollbar-thumb
+  ) {
+  background-color: #cbd5e1;
+  border-radius: 999px;
+}
+
+.editor
+  :global(
+    .ck.ck-font-family-dropdown .ck-dropdown__panel::-webkit-scrollbar-thumb:hover
+  ) {
+  background-color: #94a3b8;
+}
+
+/* CKEditor Branding / Powered by */
+
+:global(.ck-powered-by),
+:global(.ck.ck-powered-by),
+:global(.ck-powered-by__label),
+:global(.ck.ck-powered-by__label),
+:global(.ck-powered-by a),
+:global(.ck.ck-powered-by a),
+:global(a[class*="powered-by"]),
+:global([class*="powered-by"]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .editor :global(.ck.ck-editor__editable) {
+    min-height: 180px;
+  }
+
+  .editor :global(.ck.ck-toolbar) {
+    padding: 0.35rem;
+  }
+
+  .editor :global(.ck.ck-dropdown__panel) {
+    max-width: calc(100vw - 24px);
+  }
+
+  .editor
+    :global(.ck.ck-font-family-dropdown .ck-dropdown__panel) {
+    max-height: 260px !important;
+  }
+
+  .characterCount {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}

@@ -1,0 +1,79 @@
+.lastCoursesWrapper {
+  width: 1140px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Section Header */
+
+.lastCoursesWrapper :global(.sectionHeader) {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+/* Course Grid */
+
+.lastCourses {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 270px);
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Large Desktop */
+
+@media (max-width: 1240px) {
+  .lastCoursesWrapper {
+    width: 840px;
+  }
+
+  .lastCourses {
+    grid-template-columns: repeat(3, 270px);
+    justify-content: space-between;
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 920px) {
+  .lastCoursesWrapper {
+    width: 565px;
+  }
+
+  .lastCourses {
+    grid-template-columns: repeat(2, 270px);
+    gap: 25px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 620px) {
+  .lastCoursesWrapper {
+    width: 100%;
+  }
+
+  .lastCourses {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 20px;
+  }
+
+  .lastCoursesWrapper :global(.sectionHeader) {
+    padding: 0 15px;
+  }
+}
+
+/* Loader */
+
+.loaderContainer {
+  min-height: calc(100vh - 190px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

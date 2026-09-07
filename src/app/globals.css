@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #fcfeff;
+  font-family: var(--font-geist-sans);
+}
+
+ul {
+  list-style-position: inside;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: var(--font-geist-mono);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* last course section */
+
+.section {
+  margin-top: 50px;
+  margin-bottom: 120px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-family: "Alexandria", sans-serif;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionTitle::after {
+  content: " ";
+  position: absolute;
+  bottom: -7px;
+  right: 0;
+  left: 0;
+  display: block;
+  height: 15px;
+  width: calc(100% + 6px);
+  background-color: #ff73004f;
+  -webkit-clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%);
+  z-index: -1;
+}
+
+.sectionMore {
+  font-size: 15px;
+  font-family: "Alexandria", sans-serif;
+  cursor: pointer;
+}
+
+/* Global Scrollbar */
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #aeb7c3 transparent;
+}
+
+/* Chrome, Edge, Safari */
+
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #aeb7c3;
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #929daa;
+}
+
+/* SweetAlert2 - Delete Confirmation */
+
+.swal2-confirm.deleteConfirmButton,
+.swal2-cancel.deleteCancelButton {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+/* Hover */
+
+.swal2-confirm.deleteConfirmButton:hover,
+.swal2-cancel.deleteCancelButton:hover {
+  transform: translateY(-3px);
+  filter: brightness(0.94);
+}
+
+/* Click / Press */
+
+.swal2-confirm.deleteConfirmButton:active,
+.swal2-cancel.deleteCancelButton:active {
+  transform: translateY(2px) scale(0.90);
+  box-shadow: none !important;
+}
+
+/* Remove button */
+
+.swal2-confirm.deleteConfirmButton {
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+}
+
+/* Remove button - Hover */
+
+.swal2-confirm.deleteConfirmButton:hover {
+  box-shadow: 0 7px 14px rgba(239, 68, 68, 0.32);
+}
+
+/* Cancel button */
+
+.swal2-cancel.deleteCancelButton {
+  box-shadow: 0 4px 10px rgba(100, 116, 139, 0.18);
+}
+
+/* Cancel button - Hover */
+
+.swal2-cancel.deleteCancelButton:hover {
+  box-shadow: 0 7px 14px rgba(100, 116, 139, 0.25);
+}

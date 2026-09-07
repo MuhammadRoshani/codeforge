@@ -1,0 +1,417 @@
+/* Main Course Intro Layout */
+
+.courseIntro {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+/* Course Information Section */
+
+.courseInfo {
+  position: relative;
+  width: 46%;
+  min-height: 280px;
+}
+
+/* Course Title */
+
+.courseTitle {
+  margin: 0 0 15px;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Course Short Description */
+
+.courseDesc {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.9;
+  text-align: justify;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Course Payment Section */
+
+.coursePayment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Payment Button Base Styles */
+
+.coursePayment button {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Disabled Payment Button */
+
+.coursePayment button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Course Intro Columns */
+
+.courseIntro > div {
+  width: 46%;
+}
+
+/* Course Meta Information */
+
+.courseMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+  gap: 18px;
+}
+
+/* Course Meta Item */
+
+.courseDetailBox {
+  width: calc(50% - 9px);
+  min-height: 82px;
+  padding: 16px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Course Meta Item Hover State */
+
+.courseDetailBox:hover {
+  border-color: #bfdbfe;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(29, 78, 216, 0.1);
+}
+
+/* Meta Item Label */
+
+.label {
+  margin: 0 0 7px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Meta Item Label Text */
+
+.label b {
+  font-weight: 600;
+}
+
+/* Meta Item Value */
+
+.value {
+  margin: 0;
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* Purchased Course Box */
+
+.purchasedBox {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  background-color: #ecfdf5;
+  color: #047857;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.purchasedInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Start Learning Button */
+
+.coursePayment .startLearningBtn {
+  flex-shrink: 0;
+  width: auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #10b981;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.16);
+  transition:
+    background-color 0.25s ease,
+    transform 0.18s ease,
+    box-shadow 0.25s ease;
+}
+
+.coursePayment .startLearningBtn:hover {
+  background-color: #059669;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.22);
+}
+
+.coursePayment .startLearningBtn:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.14);
+}
+
+.coursePayment .startLearningBtn:focus,
+.coursePayment .startLearningBtn:focus-visible {
+  outline: none;
+}
+
+/* Course Enrollment Button */
+
+.enrollBtn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.14);
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.18s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Course Enrollment Button Hover State */
+
+.enrollBtn:hover:not(:disabled) {
+  background-color: #1e40af;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(29, 78, 216, 0.22);
+}
+
+/* Course Enrollment Button Active / Pressed State */
+
+.enrollBtn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 3px 8px rgba(29, 78, 216, 0.14);
+}
+
+/* Free Enrollment Button */
+
+.freeEnrollBtn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background-color: #10b981;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  /* Blue shadow to match the overall design */
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.14);
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.18s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Free Enrollment Button Hover State */
+
+.freeEnrollBtn:hover:not(:disabled) {
+  /* background-color: #059669; */
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(29, 78, 216, 0.22);
+}
+
+/* Free Enrollment Button Active / Pressed State */
+
+.freeEnrollBtn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 3px 8px rgba(29, 78, 216, 0.14);
+}
+
+/* Disabled Enrollment Buttons */
+
+.enrollBtn:disabled,
+.freeEnrollBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Course Price Section */
+
+.priceBox {
+  text-align: center;
+}
+
+/* Original Course Price */
+
+.originalPrice {
+  margin-inline-end: 10px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* Final Course Price */
+
+.finalPrice {
+  margin: 0;
+  color: #1d4ed8;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+/* Tablet Responsive Styles */
+
+@media (max-width: 992px) {
+  .courseIntro {
+    gap: 40px;
+  }
+
+  .courseInfo,
+  .courseIntro > div {
+    width: 48%;
+  }
+
+  .courseTitle {
+    font-size: 28px;
+  }
+
+  .coursePayment {
+    gap: 15px;
+  }
+
+  .enrollBtn,
+  .freeEnrollBtn {
+    padding: 11px 18px;
+    font-size: 15px;
+  }
+}
+
+/* Mobile Responsive Styles */
+
+@media (max-width: 768px) {
+  .courseDetailsPage {
+    margin-top: 30px;
+  }
+
+  .courseIntro {
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .courseInfo,
+  .courseIntro > div {
+    width: 100%;
+  }
+
+  .courseInfo {
+    min-height: 250px;
+  }
+
+  .courseMeta {
+    gap: 14px;
+  }
+
+  .courseDetailBox {
+    width: calc(50% - 7px);
+  }
+}
+
+/* Small Mobile Responsive Styles */
+
+@media (max-width: 480px) {
+  .courseTitle {
+    font-size: 24px;
+  }
+
+  .courseDesc {
+    font-size: 15px;
+  }
+
+  .coursePayment {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .coursePayment button,
+  .enrollBtn,
+  .freeEnrollBtn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .priceBox {
+    text-align: center;
+  }
+
+  .courseDetailBox {
+    width: 100%;
+  }
+
+  .purchasedBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .purchasedInfo {
+    justify-content: center;
+  }
+
+  .startLearningBtn {
+    width: 100%;
+    margin-inline-start: 0;
+    text-align: center;
+  }
+}

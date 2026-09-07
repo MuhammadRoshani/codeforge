@@ -1,0 +1,245 @@
+.authWrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  background-color: rgb(243 244 246);
+}
+
+.left {
+  width: 50%;
+  height: 100vh;
+}
+
+.right {
+  width: 50%;
+  height: 100vh;
+  background: linear-gradient(
+    315deg,
+    #7c3aed 0%,
+    #6d28d9 18%,
+    #4f46e5 38%,
+    #6366f1 58%,
+    #9333ea 78%,
+    #be185d 100%
+  );
+  background-size: 350% 350%;
+  animation: gradientMove 8s ease-in-out infinite;
+  border-radius: 280px 0 0 620px;
+  box-shadow: -10px 0 40px rgba(37,99,235,.15);
+}
+
+.authForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  background-color: white;
+  padding: 40px 25px 50px;
+  border-radius: 14px;
+  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.12);
+}
+
+.authForm h2 {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 16px;
+
+  background: linear-gradient(
+    90deg,
+    #7c3aed,
+    #6d28d9,
+    #4f46e5,
+    #6366f1,
+    #9333ea,
+    #be185d
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.authForm h3 {
+  color: #4f46e5;
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.authForm p {
+  color: #64738a;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 14px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.authForm input,
+.authForm button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  background-color: rgb(233, 233, 233);
+  font-size: 16px;
+}
+
+.authForm input {
+  transition:
+  background-color .2s ease,
+  box-shadow .2s ease;
+  color: #334155;
+  caret-color: #7c3aed;
+  letter-spacing: 1px;
+}
+
+.authForm input::placeholder {
+  color: #8a97a8;
+}
+
+.authForm input:focus {
+  background: rgb(242, 242, 242);
+  box-shadow: 0 0 0 3px rgba(124,58,237,.18);
+  color: #1e293b;
+}
+
+
+.authForm button {
+  cursor: pointer;
+  font-family: inherit;
+
+ background: linear-gradient(90deg, #6d28d9, #4f46e5);
+  color: #f8fafc;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 18px;
+  transition:
+  transform 0.18s ease,
+  box-shadow 0.18s ease,
+  color 0.18s ease,
+  filter 0.18s ease;
+  box-shadow: 0 8px 20px rgba(109,40,217,.28);
+}
+
+.authForm button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-3px);
+}
+
+.authForm button:active {
+  transform: translateY(3px) scale(0.98);
+  box-shadow: 0 2px 8px rgba(31, 88, 212, 0.15);
+  color: #d5e5fb;
+  filter: brightness(0.92);
+}
+
+.authForm button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}
+
+.authForm .gotoBack {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #d8b4fe;
+  border-radius: 8px;
+  color: #6d28d9;
+  background: #faf5ff;
+  margin-right: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition:
+  background-color .2s ease,
+  border-color .2s ease,
+  color .2s ease,
+  transform .2s ease;
+}
+
+.authForm .gotoBack:hover {
+  background: #f3e8ff;
+  border-color: #7c3aed;
+  color: #7c3aed;
+  transform: translateX(-2px);
+}
+
+.authForm .gotoBack:active {
+  transform: scale(.96);
+}
+
+.phoneNumber {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #4f46e5;
+  letter-spacing: 1px;
+}
+
+.resendOtp {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.resendOtp button {
+  background-color: #6d28d9;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.resendOtp p {
+  font-size: 14px;
+  color: #555;
+}
+
+.authForm .resendOtp .resend {
+  display: inline-block;
+  margin: 0;
+  color: #3f64ff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.authForm .resendOtp .resend:hover {
+  color: #6d28d9;
+  transform: translateY(-1px);
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  25% {
+    background-position: 50% 0%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  75% {
+    background-position: 50% 100%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

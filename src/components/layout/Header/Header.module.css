@@ -1,0 +1,374 @@
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-bottom: 1px solid #d7dee0;
+}
+
+/* Header Navigation Layout */
+
+.headerTop {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+  justify-self: start;
+}
+
+/* Navigation */
+
+.headerTop > ul {
+  justify-self: center;
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  color: #4b5563;
+  margin: 0;
+  padding: 0;
+}
+
+.headerTop ul li {
+  padding: 10px 5px;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.headerTop ul li a:hover {
+  color: #1D4ED8;
+}
+
+.headerTop ul li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.30s ease;
+}
+
+.activeLink {
+  color:#1D4ED8;
+  font-weight: 600;
+}
+
+.headerTop ul li svg {
+  font-size: 20px;
+}
+
+/* Right Side (User / Login / Cart) */
+
+.headerTop > div {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Search */
+
+.searchInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+.searchInput input {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.searchInput svg {
+  font-size: 25px;
+  color: #6b7280;
+}
+
+/* Login Button */
+
+.authBtn {
+  padding: 10px 30px;
+  border: 1px solid #d7dee0;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.authBtn:hover {
+  background:#f9fcff;
+  border-color:#CBD5E1;
+  transform: translateY(-2px);
+}
+
+.authBtn:active {
+  transform: translateY(3px) scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Header Icons */
+
+.cardIconWrapper {
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.cardIconWrapper:hover{
+  background:#f9fcff;
+  border-color:#CBD5E1;
+  transform: translateY(-2px);
+}
+
+.cardIconWrapper:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+
+.cardIconWrapper svg {
+  font-size: 20px;
+}
+
+.cartIconWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.cartCount {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background-color: #F59E0B;
+  color: #111827;
+  border: 2px solid #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* User Profile Menu */
+
+.userIcon {
+  position: relative;
+}
+
+/* Invisible bridge between user icon and dropdown
+   Prevents hover from breaking while moving the cursor */
+.userIcon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  height: 10px;
+} 
+
+.userProfileMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 3;
+  width: 280px;
+  padding: 20px 0;
+  background: #fff;
+  border-radius: 10px;
+  color: #374151;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition:
+    opacity .22s ease,
+    transform .22s ease,
+    visibility .22s;
+}
+
+/* Show menu on hover */
+.userIcon:hover .userProfileMenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.userProfileMenu ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.userProfileMenu ul li {
+  cursor: pointer;
+}
+
+.userProfileMenu ul li a {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.userProfileMenu .item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  color: #374151;
+  box-sizing: border-box;
+  transition:
+    background-color .25s ease,
+    color .25s ease;
+}
+
+.userProfileMenu .item svg {
+  transition: color 0.2s ease;
+}
+
+.userProfileMenu .item:hover {
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+}
+
+
+.userProfileMenu p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.item:active,
+.menuButton:active {
+  transform: scale(.985);
+}
+
+/* logout btn */
+.item,
+.menuButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background-color .2s ease,
+    color .2s ease,
+    transform .08s ease;
+}
+
+.menuButton p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.menuButton:hover {
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+}
+
+.menuButton svg {
+  color: inherit;
+}
+
+/* Caret animation */
+
+.caretIcon {
+  font-size: 13px !important;
+  flex-shrink: 0;
+  transition: transform 0.28s cubic-bezier(.16, 1, .3, 1),
+    color 0.2s ease;
+    transform: translateX(0);
+    will-change: transform;
+}
+
+.userProfileMenu .item:hover .caretIcon,
+.menuButton:hover .caretIcon {
+  transform: translateX(4px);
+}
+
+/* Skeleton */
+
+.skeletonAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s linear infinite;
+}
+
+.skeletonName {
+  width: 60px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s linear infinite;
+}
+
+@keyframes skeleton-loading {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}

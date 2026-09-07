@@ -1,0 +1,414 @@
+/* Main Course Chapters Section */
+
+.chapters {
+  margin: 4rem 0;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05);
+}
+
+/* Course Chapters Header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Course Chapters Title */
+
+.title {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Course Lessons Summary */
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.summary span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Chapters Accordion */
+
+.accordion {
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+/* Accordion Hint */
+
+.accordionHint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 2.2rem 1rem;
+  color: #64748b;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.hintIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: #1d4ed8;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.accordionHint p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Individual Chapter */
+
+.chapter {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.3s ease;
+}
+
+.chapter:last-child {
+  border-bottom: none;
+}
+
+/* Chapter Header */
+
+.chapterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.3rem 1.5rem;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.chapterHeader:hover {
+  background-color: #f1f5f9;
+}
+
+.chapterHeader h3 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* Chapter Toggle Arrow */
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition:
+    transform 0.32s ease,
+    color 0.32s ease;
+}
+
+.chapterHeader:hover .arrow {
+  color: #1d4ed8;
+}
+
+.arrowOpen {
+  color: #1d4ed8;
+  transform: rotate(180deg);
+}
+
+/* Closed Chapter Message */
+
+.closedChapterMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  box-sizing: border-box;
+  padding: 1.4rem 1.5rem;
+  color: #64748b;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.closedChapterMessage:hover {
+  color: #1d4ed8;
+  background-color: #f8fafc;
+}
+
+/* Chapter Content Animation Wrapper */
+
+.chapterContentWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.34s ease,
+    opacity 0.24s ease;
+}
+
+.chapterContentWrapperOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+/* Chapter Content */
+
+.chapterContent {
+  min-height: 0;
+  overflow: hidden;
+  padding: 1.8rem 1.5rem 2.1rem;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Individual Lesson */
+
+.lesson {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.3s ease;
+}
+
+.lesson:last-child {
+  border-bottom: none;
+}
+
+.lesson:hover {
+  background-color: #f8fafc;
+}
+
+/* Lesson Information */
+
+.lessonInfo {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+/* Accessible Lesson Link */
+
+.lessonLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #1e293b;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.lessonLink:hover {
+  color: #1d4ed8;
+}
+
+/* Download Icon */
+
+.downloadIcon {
+  flex-shrink: 0;
+  color: #10b981;
+  font-size: 1.25rem;
+}
+
+/* Locked Lesson */
+
+.lockedLesson {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Lock Icon */
+
+.lockIcon {
+  flex-shrink: 0;
+  color: #ef4444;
+  font-size: 1.2rem;
+}
+
+/* Lesson Title */
+
+.lessonTitle {
+  line-height: 1.6;
+}
+
+/* Lesson Duration */
+
+.lessonMeta {
+  flex-shrink: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Locked Lesson Message */
+
+.lockMessage {
+  margin: 0;
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Empty Chapters State */
+
+.empty {
+  margin: 0;
+  padding: 3rem 1rem;
+  color: #64748b;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Tablet Responsive Styles */
+
+@media (max-width: 992px) {
+  .chapters {
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile Responsive Styles */
+
+@media (max-width: 768px) {
+  .chapters {
+    margin: 3rem 0;
+    padding: 1.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chapterHeader {
+    padding: 1.2rem;
+  }
+
+  .chapterHeader h3 {
+    font-size: 1rem;
+  }
+
+  .closedChapterMessage {
+    min-height: 60px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .chapterContent {
+    padding: 1rem 1.2rem 1.5rem;
+  }
+
+  .lesson {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .lessonMeta {
+    align-self: flex-end;
+  }
+
+  .lockMessage {
+    width: 100%;
+    text-align: right;
+    white-space: normal;
+  }
+}
+
+/* Small Mobile Responsive Styles */
+
+@media (max-width: 480px) {
+  .chapters {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 1.35rem;
+  }
+
+  .chapterHeader {
+    padding: 1rem;
+  }
+
+  .closedChapterMessage {
+    min-height: 58px;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .chapterContent {
+    padding: 1rem;
+  }
+
+  .lessonLink,
+  .lockedLesson {
+    font-size: 0.95rem;
+  }
+
+  .downloadIcon,
+  .lockIcon {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,15 @@
+.adminLayout {
+  display: flex;
+}
+
+.sidebarContainer {
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+}
+
+.contentContainer {
+  margin-left: 280px;
+  flex: 1;
+  padding: 20px;
+}
