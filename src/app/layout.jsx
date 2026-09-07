@@ -35,6 +35,9 @@ export const metadata = {
   title: "CodeForge",
   description:
     "Learn modern web development with high-quality programming courses.",
+  other: {
+    enamad: "44838984",
+  },
 };
 
 export default function RootLayout({ children }) {
