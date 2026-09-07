@@ -35,22 +35,25 @@ export const metadata = {
   title: "CodeForge",
   description:
     "Learn modern web development with high-quality programming courses.",
-  other: {
-    enamad: "44838984",
-  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <meta name="enamad" content="44838984" />
+      </head>
+
       <body>
         {/* Provides Redux state management to the entire application. */}
         <ReduxProvider>
           {/* Keeps the Redux cart synchronized with localStorage. */}
           <CartPersistence />
+
           {/* Provides authentication state and actions to the application. */}
           <AuthProvider>
             {children}
+
             {/* Displays global toast notifications throughout the application. */}
             <Toaster position="top-center" />
           </AuthProvider>
