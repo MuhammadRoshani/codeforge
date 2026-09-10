@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 import sanitizeHtml from "sanitize-html";
 import Course from "@/models/Course";
 import User from "@/models/User";
-import path from "path";
-import { mkdir, unlink, writeFile } from "fs/promises";
+import { put } from "@vercel/blob";
 
 import {
   getStringValue,
@@ -35,15 +34,13 @@ import {
  * - Checks for duplicate course titles and slugs.
  * - Validates the selected teacher.
  * - Allows users with teacher or admin roles to be selected as course teachers.
- * - Uploads the course thumbnail to the local public directory.
+ * - Uploads the course thumbnail to Vercel Blob.
  * - Calculates the total number of lessons.
- * - Removes the uploaded thumbnail if course creation fails.
+ * - Stores the Blob URL in the course document.
  * - Requires administrator authentication.
  */
 
 export async function POST(req) {
-  let uploadedFilePath = null;
-
   try {
     await connectDB();
 
@@ -269,33 +266,25 @@ export async function POST(req) {
     // Calculates the total number of lessons.
     const lessonsCount = calculateLessonsCount(chapters);
 
-    // Converts the uploaded thumbnail into a Node.js Buffer.
-    const bytes = await thumbnail.arrayBuffer();
-
-    const buffer = Buffer.from(bytes);
-
     // Determines the file extension from the original filename.
-    const extension = path.extname(thumbnail.name).toLowerCase();
+    const extension = thumbnail.name.includes(".")
+      ? thumbnail.name.substring(thumbnail.name.lastIndexOf(".")).toLowerCase()
+      : "";
 
-    // Generates a unique filename.
-    const filename = `${Date.now()}-${Math.round(
+    // Generates a unique Blob path for the course thumbnail.
+    const filename = `courses/${Date.now()}-${Math.round(
       Math.random() * 1e9,
     )}${extension}`;
 
-    // Creates the course image directory.
-    const uploadDir = path.join(process.cwd(), "public", "images", "courses");
+    // Uploads the course thumbnail to Vercel Blob instead of the local filesystem.
+    // Vercel's production filesystem is read-only and does not provide persistent storage,
+    // while Vercel Blob provides persistent storage and a public URL for the uploaded image.
+    const blob = await put(filename, thumbnail, {
+      access: "public",
+    });
 
-    await mkdir(uploadDir, { recursive: true });
-
-    // Creates the complete filesystem path.
-    const filePath = path.join(uploadDir, filename);
-
-    uploadedFilePath = filePath;
-
-    // Writes the thumbnail to the filesystem.
-    await writeFile(filePath, buffer);
-
-    const imageUrl = `/images/courses/${filename}`;
+    // Gets the public URL of the uploaded thumbnail.
+    const imageUrl = blob.url;
 
     // Creates the course document.
     const newCourse = new Course({
@@ -317,9 +306,6 @@ export async function POST(req) {
     });
 
     await newCourse.save();
-
-    // The thumbnail is now associated with the saved course.
-    uploadedFilePath = null;
 
     return NextResponse.json(
       {
@@ -354,15 +340,6 @@ export async function POST(req) {
         },
         { status: 409 },
       );
-    }
-
-    // Removes the uploaded thumbnail if course creation fails.
-    if (uploadedFilePath) {
-      try {
-        await unlink(uploadedFilePath);
-      } catch (fileError) {
-        console.error("Failed to remove the uploaded thumbnail:", fileError);
-      }
     }
 
     return NextResponse.json(

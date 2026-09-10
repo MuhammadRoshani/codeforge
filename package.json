@@ -11,6 +11,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^11.2.0",
     "@reduxjs/toolkit": "^2.12.0",
+    "@vercel/blob": "^2.8.0",
     "axios": "^1.18.1",
     "bcrypt": "^6.0.0",
     "ckeditor5": "^48.4.0",

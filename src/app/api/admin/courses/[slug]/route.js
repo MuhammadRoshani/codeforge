@@ -23,8 +23,7 @@ import {
 import Course from "@/models/Course";
 import { NextResponse } from "next/server";
 import User from "@/models/User";
-import path from "path";
-import { mkdir, unlink, writeFile } from "fs/promises";
+import { del, put } from "@vercel/blob";
 
 /**
  * Course API.
@@ -116,9 +115,9 @@ export async function GET(req, { params }) {
  * Updates an existing course by slug.
  */
 export async function PUT(req, { params }) {
-  // Stores the newly uploaded thumbnail path so it can be removed
+  // Stores the newly uploaded thumbnail URL so it can be removed
   // if an error occurs before the update is completed.
-  let uploadedFilePath = null;
+  let uploadedBlobUrl = null;
 
   try {
     await connectDB();
@@ -382,36 +381,30 @@ export async function PUT(req, { params }) {
 
     // Upload the new thumbnail only when the client actually submitted a file.
     if (thumbnail instanceof File && thumbnail.size > 0) {
-      // Read the uploaded file into memory.
-      const bytes = await thumbnail.arrayBuffer();
-
-      const buffer = Buffer.from(bytes);
-
       // Get the original file extension.
-      const extension = path.extname(thumbnail.name).toLowerCase();
+      const extension = thumbnail.name.includes(".")
+        ? thumbnail.name
+            .substring(thumbnail.name.lastIndexOf("."))
+            .toLowerCase()
+        : "";
 
-      // Generate a unique filename to prevent collisions.
-      const filename = `${Date.now()}-${Math.round(
+      // Generate a unique Blob path to prevent filename collisions.
+      const filename = `courses/${Date.now()}-${Math.round(
         Math.random() * 1e9,
       )}${extension}`;
 
-      // Define the directory where course thumbnails are stored.
-      const uploadDir = path.join(process.cwd(), "public", "images", "courses");
+      // Uploads the course thumbnail to Vercel Blob instead of the local filesystem.
+      // Vercel's production filesystem is read-only and does not provide persistent storage,
+      // while Vercel Blob provides persistent storage and a public URL for the uploaded image.
+      const blob = await put(filename, thumbnail, {
+        access: "public",
+      });
 
-      // Create the upload directory if it does not already exist.
-      await mkdir(uploadDir, { recursive: true });
+      // Store the public Blob URL in the course document.
+      imageUrl = blob.url;
 
-      // Build the complete filesystem path for the new thumbnail.
-      const filePath = path.join(uploadDir, filename);
-
-      // Keep track of the uploaded file for cleanup if the request fails.
-      uploadedFilePath = filePath;
-
-      // Save the uploaded thumbnail to the filesystem.
-      await writeFile(filePath, buffer);
-
-      // Store the public URL of the new thumbnail.
-      imageUrl = `/images/courses/${filename}`;
+      // Keep track of the new Blob so it can be removed if the update fails.
+      uploadedBlobUrl = blob.url;
     }
 
     // Calculate the total number of lessons in the normalized chapters.
@@ -439,18 +432,12 @@ export async function PUT(req, { params }) {
 
     // The new thumbnail is now safely associated with the course,
     // so it should not be deleted by the catch block.
-    uploadedFilePath = null;
+    uploadedBlobUrl = null;
 
     // Remove the old thumbnail only after the course update succeeds.
     if (thumbnail instanceof File && thumbnail.size > 0 && oldThumbnailUrl) {
-      const oldThumbnailPath = path.join(
-        process.cwd(),
-        "public",
-        oldThumbnailUrl.replace(/^\/+/, ""),
-      );
-
       try {
-        await unlink(oldThumbnailPath);
+        await del(oldThumbnailUrl);
       } catch (fileError) {
         // Log the error without failing the already successful course update.
         console.error("Failed to remove the old course thumbnail:", fileError);
@@ -502,10 +489,10 @@ export async function PUT(req, { params }) {
     }
 
     // If a new thumbnail was uploaded but the update failed,
-    // remove the uploaded file to prevent orphaned files.
-    if (uploadedFilePath) {
+    // remove the uploaded Blob to prevent orphaned files.
+    if (uploadedBlobUrl) {
       try {
-        await unlink(uploadedFilePath);
+        await del(uploadedBlobUrl);
       } catch (fileError) {
         console.error("Failed to remove the uploaded thumbnail:", fileError);
       }
@@ -560,16 +547,10 @@ export async function DELETE(req, { params }) {
     // Delete the course document from MongoDB.
     await Course.deleteOne({ _id: course._id });
 
-    // Remove the course thumbnail from the filesystem.
+    // Remove the course thumbnail from Vercel Blob.
     if (course.thumbnail) {
-      const thumbnailPath = path.join(
-        process.cwd(),
-        "public",
-        course.thumbnail.replace(/^\/+/, ""),
-      );
-
       try {
-        await unlink(thumbnailPath);
+        await del(course.thumbnail);
       } catch (fileError) {
         // Log the error without failing the deletion response.
         console.error("Failed to remove the course thumbnail:", fileError);
