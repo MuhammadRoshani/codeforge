@@ -32,7 +32,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "44838984",
+  title: "CodeForge",
   description:
     "Learn modern web development with high-quality programming courses.",
 };

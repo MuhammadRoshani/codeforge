@@ -3,8 +3,6 @@ import Course from "@/models/Course";
 import { NextResponse } from "next/server";
 
 /**
- * GET /api/courses/latest
- *
  * Returns the latest published courses for the home page.
  *
  * Features:

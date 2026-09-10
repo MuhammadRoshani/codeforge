@@ -15,7 +15,8 @@ import styles from "./LastCourses.module.css";
  *
  * Features:
  * - Fetches the latest courses from the API.
- * - Handles isLoading, error, and empty states.
+ * - Handles loading, error, and empty states.
+ * - Prevents infinite loading when the API is unavailable.
  * - Displays courses using the reusable CourseCard component.
  * - Animates course cards sequentially when the section enters the page.
  */
@@ -56,20 +57,37 @@ export default function LastCourses() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchLatestCourses = async () => {
       try {
-        const { data } = await api.get("/courses/latest");
+        const { data } = await api.get("/courses/latest", {
+          timeout: 10000,
+        });
 
-        setCourses(data.courses || []);
+        if (!isMounted) return;
+
+        setCourses(data?.courses || []);
+        setError(false);
       } catch (error) {
         console.error("Error fetching latest courses:", error);
+
+        if (!isMounted) return;
+
         setError(true);
+        setCourses([]);
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchLatestCourses();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Displays the loader while the latest courses are being fetched.
@@ -87,6 +105,7 @@ export default function LastCourses() {
         <p className="sectionTitle">Latest Courses</p>
         <p className="sectionMore">View All Courses</p>
       </div>
+
       <motion.div
         className={styles.lastCourses}
         variants={containerVariants}
@@ -94,7 +113,7 @@ export default function LastCourses() {
         animate="visible"
       >
         {error ? (
-          <p>Failed to load courses.</p>
+          <p>Courses are temporarily unavailable.</p>
         ) : courses.length === 0 ? (
           <p>No courses are currently available.</p>
         ) : (
