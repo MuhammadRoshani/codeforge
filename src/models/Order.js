@@ -71,8 +71,6 @@ const orderSchema = new mongoose.Schema(
     authority: {
       type: String,
       default: null,
-      unique: true,
-      sparse: true,
     },
 
     // ZarinPal reference ID returned after successful payment verification.
