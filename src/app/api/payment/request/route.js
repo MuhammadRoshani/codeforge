@@ -77,6 +77,7 @@ export async function POST(req) {
     );
 
     const result = await response.json();
+    console.log("ZarinPal payment request response:", result);
 
     if (!response.ok || result?.data?.code !== 100) {
       return NextResponse.json(
