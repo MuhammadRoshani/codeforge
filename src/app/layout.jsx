@@ -7,18 +7,37 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 /**
- * Root layout for the application.
- * Applies global styles, fonts, metadata, and shared UI components.
+ * Root Layout.
  *
- * The providers are nested so that their functionality is available to
- * all components rendered inside the application.
+ * - This is the root layout of the CodeForge application and wraps the entire
+ * application with the global configuration, fonts, styles, providers, and
+ * shared UI services required by all pages.
  *
- * State Management Architecture:
- * React Context is used for authentication state, while Redux Toolkit is used
- * for the shopping cart as centralized application state.
+ * - The application uses multiple state and service layers, each with a
+ * specific responsibility:
  *
- * Each solution is used according to the responsibilities and requirements
- * of the feature rather than forcing all state management into one approach.
+ * - Redux Toolkit:
+ *   Manages the global shopping cart state because the cart is shared across
+ *   multiple unrelated components and pages.
+ *
+ * - CartPersistence:
+ *   Synchronizes the Redux cart with browser localStorage so that the cart
+ *   survives page refreshes and later visits to the application.
+ *
+ * - React Context:
+ *   Manages authentication-related state and actions through AuthProvider.
+ *   Authentication remains separate from Redux because it is handled by the
+ *   application's authentication context and HTTP-only cookie flow.
+ *
+ * - React Hot Toast:
+ *   Provides globally accessible toast notifications for success, error, and
+ *   other user feedback throughout the application.
+ *
+ * The provider hierarchy is important because CartPersistence depends on the
+ * Redux store and therefore must be rendered inside ReduxProvider.
+ *
+ * All page content is rendered inside AuthProvider so that client components
+ * can access the authentication state wherever required.
  */
 
 const geistSans = Geist({
@@ -45,16 +64,16 @@ export default function RootLayout({ children }) {
       </head>
 
       <body>
-        {/* Provides Redux state management to the entire application. */}
+        {/* Provides the Redux store to the entire application. */}
         <ReduxProvider>
-          {/* Keeps the Redux cart synchronized with localStorage. */}
+          {/* Restores and persists the Redux shopping cart through localStorage. */}
           <CartPersistence />
 
           {/* Provides authentication state and actions to the application. */}
           <AuthProvider>
             {children}
 
-            {/* Displays global toast notifications throughout the application. */}
+            {/* Provides globally accessible toast notifications. */}
             <Toaster position="top-center" />
           </AuthProvider>
         </ReduxProvider>

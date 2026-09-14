@@ -6,18 +6,23 @@ import { store } from "@/redux/store";
 /**
  * Redux Provider.
  *
- * - Provides the Redux store to the entire React component tree so that any
- * client component inside the application can access and interact with the
- * global application state through Redux Toolkit.
+ * - This component connects the application's Redux store to the React
+ * component tree.
  * - The Provider component from react-redux makes the configured Redux store
- * available to all descendant components through hooks such as useSelector
+ * available to all descendant client components. Components can then access
+ * Redux state and dispatch Redux actions through hooks such as useSelector
  * and useDispatch.
- * - This provider is mounted at the root layout level, allowing shared global
- * state such as the shopping cart to remain accessible across different pages
- * and components without relying on React Context for state management.
+ * - The Redux Provider is mounted at the application root so that Redux state
+ * is available across all pages and components that are rendered inside it.
+ * - At the moment, the Redux store manages the global shopping cart state.
+ * Additional Redux slices can be registered in the store later if the
+ * application requires other globally shared state.
+ * - This component does not manage any application state itself. Its only
+ * responsibility is to provide the configured Redux store to the React
+ * component tree.
  */
 
 export default function ReduxProvider({ children }) {
-  // Makes the configured Redux store available to all descendant components.
+  // Make the configured Redux store available to all descendant components.
   return <Provider store={store}>{children}</Provider>;
 }

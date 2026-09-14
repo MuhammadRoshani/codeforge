@@ -1,15 +1,13 @@
 "use client";
 
-import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import api from "@/utils/axios";
 import toast from "react-hot-toast";
 import { FaShoppingCart, FaArrowRight, FaTrash } from "react-icons/fa";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 import styles from "./Cart.module.css";
 
@@ -25,22 +23,16 @@ import styles from "./Cart.module.css";
  * courses and the final amount to be paid.
  * - Discounted courses use the discount price only when a valid discount
  * exists and the discount price is lower than the original course price.
- * - Course removal requires user confirmation through SweetAlert2.
- * - The entire cart can also be cleared at once after the user confirms
- * the bulk removal action through SweetAlert2.
- * - Checkout requests are sent through the centralized Axios instance,
- * which automatically includes authentication cookies and handles access
- * token refresh when required.
- * - The current checkout process is a temporary test flow and can later
- * be connected to a real payment gateway.
+ * - Course removal and cart clearing require user confirmation through
+ * SweetAlert2.
+ * - The checkout process first creates an order through the Orders API and
+ * then requests a ZarinPal payment URL through the payment request API.
+ * - All API requests are sent through the centralized Axios instance,
+ * which handles authentication cookies and access token refresh.
  */
 
 export default function Cart() {
-  const { refreshUser } = useAuth();
-  // Retrieves cart data and cart actions from the Redux-based cart hook.
   const { cart, totalPrice, removeFromCart, clearCart } = useCart();
-
-  const router = useRouter();
 
   // Tracks the loading state of the checkout process.
   const [loading, setLoading] = useState(false);
@@ -65,11 +57,9 @@ export default function Cart() {
       },
     });
 
-    // Removes the course only after the user confirms the action.
     if (result.isConfirmed) {
       removeFromCart(course._id);
 
-      // Displays a success message after the course has been removed.
       await Swal.fire({
         title: "Removed",
         text: "The course has been removed from your cart.",
@@ -104,11 +94,9 @@ export default function Cart() {
       },
     });
 
-    // Clears all cart items only after the user confirms the bulk removal.
     if (result.isConfirmed) {
       clearCart();
 
-      // Displays a success message after the entire cart has been cleared.
       await Swal.fire({
         title: "Cart Cleared",
         text: "All courses have been removed from your cart.",
@@ -123,47 +111,51 @@ export default function Cart() {
     }
   };
 
-  // Sends the current cart courses to the temporary checkout API.
   const handleCheckout = async () => {
-    // Prevents the checkout request from running when the cart is empty.
-    if (cart.length === 0) {
-      return toast.error("Your cart is empty.");
-    }
+    if (loading) return;
+
+    setLoading(true);
 
     try {
-      // Disables the checkout button while the purchase request is processing.
-      setLoading(true);
-
-      // Sends only the course IDs because the server is responsible for
-      // validating the courses and determining the actual purchase data.
-      const { data } = await api.post("/cart/checkout", {
+      // Create the order using the course IDs currently stored in the cart.
+      const orderResponse = await api.post("/orders", {
         courseIds: cart.map((course) => course._id),
       });
 
-      // Displays the server-provided error message when the checkout fails.
-      if (!data.success) {
-        return toast.error(data.message);
+      const orderData = orderResponse.data;
+
+      if (!orderData.success) {
+        toast.error(orderData.message || "Failed to create the order.");
+        return;
       }
 
-      await refreshUser();
-      // Clears the local Redux cart only after the server confirms the purchase.
-      clearCart();
+      toast.success("Redirecting to the payment gateway...");
 
-      // Displays the successful checkout message returned by the API.
-      toast.success(data.message);
+      // Request a ZarinPal payment URL for the newly created order.
+      const paymentResponse = await api.post("/payment/request", {
+        orderId: orderData.orderId,
+      });
 
-      // Redirects the user to the homepage after the purchase is completed.
-      router.replace("/");
+      const paymentData = paymentResponse.data;
+
+      if (!paymentData.success) {
+        toast.error(
+          paymentData.message || "Failed to create the payment request.",
+        );
+        return;
+      }
+
+      // Redirect the browser to the external ZarinPal payment page.
+      window.location.href = paymentData.paymentUrl;
     } catch (error) {
-      // Extracts the API error message when the server returns a structured error.
+      console.error("Checkout error:", error);
+
       const message =
         error.response?.data?.message ||
-        "Something went wrong while completing your purchase.";
+        "An error occurred while processing your payment.";
 
-      // Displays the checkout error without clearing the user's cart.
       toast.error(message);
     } finally {
-      // Re-enables the checkout button after the request has completed.
       setLoading(false);
     }
   };
@@ -249,6 +241,7 @@ export default function Cart() {
                   onClick={() => handleRemoveFromCart(course)}
                   className={styles.removeBtn}
                   aria-label={`Remove ${course.title} from cart`}
+                  disabled={loading}
                 >
                   <FaTrash />
                 </button>
@@ -294,7 +287,7 @@ export default function Cart() {
             Clear Cart
           </button>
 
-          {/* Starts the checkout process through the centralized Axios API client. */}
+          {/* Starts the order creation and ZarinPal payment process. */}
           <button
             type="button"
             onClick={handleCheckout}

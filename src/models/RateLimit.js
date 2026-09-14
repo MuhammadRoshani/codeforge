@@ -6,10 +6,8 @@ import mongoose from "mongoose";
  * - Each record represents one rate-limit key, such as a phone number
  * or client IP address, and keeps track of the number of attempts
  * within the current time window.
- *
  * - The expiresAt field uses MongoDB's TTL index so expired rate-limit
  * records are automatically removed from the database.
- *
  * - The rateLimit utility handles checking, consuming, and releasing
  * attempts while this model is responsible only for storing the
  * rate-limit state.

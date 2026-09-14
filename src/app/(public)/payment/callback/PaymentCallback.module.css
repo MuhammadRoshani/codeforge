@@ -1,0 +1,178 @@
+/* Payment page wrapper. */
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fb;
+  padding: 20px;
+}
+
+/* result card. */
+
+.card {
+  width: min(450px, 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.06);
+  animation: fade 0.4s ease;
+}
+
+/* payment status icons. */
+
+.successIcon,
+.errorIcon {
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  color: #fff;
+  font-size: 58px;
+  font-weight: 600;
+}
+
+/* Successful payment icon. */
+
+.successIcon {
+  background: #16a34a;
+}
+
+/* Failed payment icon. */
+
+.errorIcon {
+  background: #dc2626;
+}
+
+/* Payment result heading. */
+
+.card h1 {
+  margin: 0 0 15px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* Payment result message. */
+
+.card p {
+  margin: 0 0 30px;
+  color: #666;
+  line-height: 2;
+}
+
+/* Payment reference information container. */
+
+.refBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 30px;
+}
+
+/* Reference information label. */
+
+.refBox span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Payment reference ID. */
+
+.refBox strong {
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Main payment callback action button. */
+
+.card button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
+
+.card button:hover {
+  background: #1d4ed8;
+}
+
+.card button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Payment verification loading spinner. */
+.loader {
+  width: 70px;
+  height: 70px;
+  border: 6px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  margin-bottom: 30px;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Spinner rotation animation. */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Payment result card entrance animation. */
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 35px 25px;
+  }
+
+  .successIcon,
+  .errorIcon {
+    width: 90px;
+    height: 90px;
+    font-size: 48px;
+  }
+
+  .card h1 {
+    font-size: 26px;
+  }
+}
