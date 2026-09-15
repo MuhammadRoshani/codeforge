@@ -1,6 +1,7 @@
 "use client";
 
 import useCart from "@/hooks/useCart";
+import useAuth from "@/hooks/useAuth";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import api from "@/utils/axios";
@@ -26,13 +27,15 @@ import styles from "./Cart.module.css";
  * - Course removal and cart clearing require user confirmation through
  * SweetAlert2.
  * - The checkout process first creates an order through the Orders API and
- * then requests a ZarinPal payment URL through the payment request API.
+ * then either completes a free order directly or requests a ZarinPal payment
+ * URL for paid orders.
  * - All API requests are sent through the centralized Axios instance,
  * which handles authentication cookies and access token refresh.
  */
 
 export default function Cart() {
   const { cart, totalPrice, removeFromCart, clearCart } = useCart();
+  const { refreshUser } = useAuth();
 
   // Tracks the loading state of the checkout process.
   const [loading, setLoading] = useState(false);
@@ -129,9 +132,7 @@ export default function Cart() {
         return;
       }
 
-      toast.success("Redirecting to the payment gateway...");
-
-      // Request a ZarinPal payment URL for the newly created order.
+      // Request the payment process for the newly created order.
       const paymentResponse = await api.post("/payment/request", {
         orderId: orderData.orderId,
       });
@@ -139,11 +140,24 @@ export default function Cart() {
       const paymentData = paymentResponse.data;
 
       if (!paymentData.success) {
-        toast.error(
-          paymentData.message || "Failed to create the payment request.",
-        );
+        toast.error(paymentData.message || "Failed to process the order.");
         return;
       }
+
+      // Complete free orders without redirecting to the payment gateway.
+      if (paymentData.freeOrder) {
+        await refreshUser();
+
+        clearCart();
+
+        toast.success("Course added successfully.");
+
+        router.push("/profile/courses");
+
+        return;
+      }
+
+      toast.success("Redirecting to the payment gateway...");
 
       // Redirect the browser to the external ZarinPal payment page.
       window.location.href = paymentData.paymentUrl;
@@ -152,7 +166,7 @@ export default function Cart() {
 
       const message =
         error.response?.data?.message ||
-        "An error occurred while processing your payment.";
+        "An error occurred while processing your order.";
 
       toast.error(message);
     } finally {
@@ -287,7 +301,7 @@ export default function Cart() {
             Clear Cart
           </button>
 
-          {/* Starts the order creation and ZarinPal payment process. */}
+          {/* Starts the order creation and payment process. */}
           <button
             type="button"
             onClick={handleCheckout}

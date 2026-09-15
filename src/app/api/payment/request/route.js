@@ -2,6 +2,7 @@ import connectDB from "@/configs/db";
 import { getCurrentUser } from "@/utils/auth";
 import { NextResponse } from "next/server";
 import Order from "@/models/Order";
+import User from "@/models/User";
 
 /**
  * ZarinPal Payment Request API.
@@ -57,6 +58,41 @@ export async function POST(req) {
         { success: false, message: "This order is not payable." },
         { status: 400 },
       );
+    }
+
+    // Complete free orders without creating a ZarinPal payment request.
+    if (order.totalPrice === 0) {
+      const user = await User.findById(order.user);
+
+      if (!user) {
+        return NextResponse.json(
+          { success: false, message: "User account not found." },
+          { status: 404 },
+        );
+      }
+
+      const existingCourseIds = new Set(
+        user.purchasedCourses.map((courseId) => courseId.toString()),
+      );
+
+      const newCourses = order.items
+        .map((item) => item.course)
+        .filter((courseId) => !existingCourseIds.has(courseId.toString()));
+
+      user.purchasedCourses.push(...newCourses);
+
+      await user.save();
+
+      order.status = "paid";
+      order.paidAt = new Date();
+
+      await order.save();
+
+      return NextResponse.json({
+        success: true,
+        message: "Free course added successfully.",
+        freeOrder: true,
+      });
     }
 
     const response = await fetch(
