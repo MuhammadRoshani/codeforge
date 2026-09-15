@@ -56,19 +56,15 @@ export async function POST(req) {
       );
     }
 
-    // Free courses cannot be included in a paid order.
-    if (courses.some((course) => course.isFree)) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Free courses cannot be included in a paid order.",
-        },
-        { status: 400 },
-      );
-    }
-
     // Create order items using the final course price at the time of order creation.
     const items = courses.map((course) => {
+      if (course.isFree) {
+        return {
+          course: course._id,
+          price: 0,
+        };
+      }
+
       const hasDiscount =
         course.discountPrice !== null &&
         course.discountPrice !== undefined &&
