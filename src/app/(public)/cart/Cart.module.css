@@ -128,11 +128,28 @@
 /* Course Price */
 
 .itemPrice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.15rem;
   flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.originalPrice {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: line-through;
+}
+
+.finalPrice {
   color: #2563eb;
   font-size: 1.05rem;
   font-weight: 700;
-  white-space: nowrap;
+  line-height: 1.4;
 }
 
 /* Remove Button */
@@ -552,6 +569,15 @@
   .itemPrice {
     grid-column: 2 / 3;
     font-size: 0.9rem;
+    align-items: flex-start;
+  }
+
+  .originalPrice {
+  font-size: 0.8rem;
+  }
+
+  .finalPrice {
+  font-size: 0.9rem;
   }
 
   .removeBtn {
