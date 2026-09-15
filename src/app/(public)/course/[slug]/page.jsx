@@ -1,6 +1,11 @@
 import connectDB from "@/configs/db";
 import Course from "@/models/Course";
 import Comment from "@/models/Comment";
+
+// Registers the User model with Mongoose for the populate("user") operation below.
+// The imported model is not used directly in this file; importing it ensures that
+// Mongoose can resolve the "User" model referenced by the Comment schema.
+import User from "@/models/User";
 import { notFound } from "next/navigation";
 
 import CourseIntro from "@/components/sections/course/CourseIntro";
