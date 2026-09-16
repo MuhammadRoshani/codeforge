@@ -5,7 +5,7 @@
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
-  direction: rtl;
+  direction: ltr;
 }
 
 /* Header */
@@ -15,6 +15,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  direction: ltr;
 }
 
 .title {
@@ -27,6 +28,10 @@
   color: #64748b;
   font-size: 1rem;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.4;
 }
 
 /* Filters */
@@ -36,6 +41,7 @@
   gap: 1rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  direction: ltr;
 }
 
 .searchInput {
@@ -45,7 +51,13 @@
   border: 2px solid #e2e8f0;
   border-radius: 10px;
   font-size: 1rem;
+  direction: ltr;
+  text-align: left;
   transition: 0.25s;
+}
+
+.searchInput:hover {
+  border-color: #93c5fd;
 }
 
 .searchInput:focus {
@@ -76,6 +88,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: 0.25s;
+  direction: ltr;
 }
 
 .customSelectButton:hover,
@@ -120,7 +133,7 @@
   border-radius: 7px;
   background: transparent;
   color: #334155;
-  text-align: right;
+  text-align: left;
   font-size: 0.95rem;
   cursor: pointer;
   transition: 0.2s;
@@ -178,12 +191,14 @@
   overflow-x: auto;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+  direction: ltr;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
   min-width: 1050px;
+  direction: ltr;
 }
 
 .table thead {
@@ -192,7 +207,7 @@
 
 .table th {
   padding: 1rem;
-  text-align: right;
+  text-align: left;
   color: #334155;
   font-size: 0.95rem;
   font-weight: 700;
@@ -204,17 +219,18 @@
   padding: 1rem;
   border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
+  text-align: left;
 }
 
 .table tbody tr {
-  transition: 0.2s;
+  transition: background-color 0.2s ease;
 }
 
 .table tbody tr:hover {
-  background: #f8fbff;
+  background-color: #dfe5eb;
 }
 
-/* ================= User ================= */
+/* User */
 
 .userInfo {
   display: flex;
@@ -354,16 +370,26 @@
   padding: 0.7rem 1.4rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.25s;
+  transition:
+    background-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .pagination button:hover:not(:disabled) {
   background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
 }
 
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.pagination button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.15);
 }
 
 .pagination span {

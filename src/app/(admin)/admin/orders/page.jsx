@@ -20,7 +20,6 @@ import styles from "./Orders.module.css";
  * - Supports server-side filtering by payment status.
  * - Provides server-side pagination based on the filtered order count
  *   returned by the API.
- * - Disables pagination while the search input is focused or hovered.
  * - Uses the same visual structure and interaction patterns as the
  *   admin comments management page.
  */
@@ -57,8 +56,6 @@ export default function Orders() {
   // Fetch orders using the current page, search term, and status filter.
   const fetchOrders = async () => {
     try {
-      setIsLoading(true);
-
       const params = new URLSearchParams({
         page: page.toString(),
       });
@@ -168,7 +165,10 @@ export default function Orders() {
           <h1 className={styles.title}>Orders Management</h1>
         </div>
 
-        <span className={styles.totalCount}>{totalOrders} Orders</span>
+        <div className={styles.totalCount}>
+          <span>Courses</span>
+          <span>{totalOrders}</span>
+        </div>
       </div>
 
       {/* Search & Filter Section */}
@@ -347,9 +347,7 @@ export default function Orders() {
           <button
             type="button"
             onClick={() => setPage((currentPage) => currentPage - 1)}
-            disabled={
-              isPaginationDisabled || page <= 1 || isLoading || totalPages <= 1
-            }
+            disabled={isPaginationDisabled || page <= 1 || totalPages <= 1}
           >
             Previous
           </button>
@@ -362,10 +360,7 @@ export default function Orders() {
             type="button"
             onClick={() => setPage((currentPage) => currentPage + 1)}
             disabled={
-              isPaginationDisabled ||
-              page >= totalPages ||
-              isLoading ||
-              totalPages <= 1
+              isPaginationDisabled || page >= totalPages || totalPages <= 1
             }
           >
             Next

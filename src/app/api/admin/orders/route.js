@@ -52,7 +52,10 @@ export async function GET(req) {
     let query = {};
 
     if (search) {
-      const searchRegex = new RegExp(search, "i");
+      // Escape regex characters so user input is treated as plain text.
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+      const searchRegex = new RegExp(escapedSearch, "i");
 
       const searchConditions = [
         {
