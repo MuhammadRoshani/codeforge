@@ -262,7 +262,7 @@ export default function Orders() {
             <thead>
               <tr>
                 <th>User</th>
-                <th>Courses</th>
+                <th className={styles.coursesHeader}>Courses</th>
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Reference ID</th>

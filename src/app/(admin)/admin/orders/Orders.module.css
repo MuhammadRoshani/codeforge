@@ -219,6 +219,10 @@
   white-space: nowrap;
 }
 
+.coursesHeader {
+  transform: translateX(-4px);
+}
+
 .table td {
   padding: 1rem;
   border-bottom: 1px solid #f1f5f9;

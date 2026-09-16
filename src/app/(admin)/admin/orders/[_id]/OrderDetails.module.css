@@ -47,6 +47,10 @@
   transform: translateY(-2px);
 }
 
+.backBtn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
 /* Cards */
 
 .card {
