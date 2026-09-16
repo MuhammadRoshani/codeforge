@@ -2,7 +2,6 @@ import connectDB from "@/configs/db";
 import { isAdmin } from "@/utils/auth";
 import Order from "@/models/Order";
 import { NextResponse } from "next/server";
-import mongoose from "mongoose";
 
 // Imported to register the referenced models for Mongoose populate operations.
 import User from "@/models/User";
@@ -12,8 +11,7 @@ import Course from "@/models/Course";
  * Admin Orders API.
  *
  * - Allows only authenticated administrators to access the orders list.
- * - Supports server-side search by customer name, phone number, order ID,
- *   reference ID, and order status.
+ * - Supports server-side search by customer name and phone number.
  * - Supports server-side filtering by payment status.
  * - Retrieves orders with pagination and sorts them by newest first.
  * - Populates the customer information and purchased course information
@@ -57,23 +55,7 @@ export async function GET(req) {
 
       const searchRegex = new RegExp(escapedSearch, "i");
 
-      const searchConditions = [
-        {
-          refId: searchRegex,
-        },
-        {
-          status: searchRegex,
-        },
-      ];
-
-      // Search by order ID when the search term is a valid MongoDB ObjectId.
-      if (mongoose.Types.ObjectId.isValid(search)) {
-        searchConditions.push({
-          _id: search,
-        });
-      }
-
-      // Search customers by name or phone number.
+      // Search only by customer name or phone number.
       const matchingUsers = await User.find({
         $or: [
           {
@@ -85,15 +67,17 @@ export async function GET(req) {
         ],
       }).select("_id");
 
+      // If matching customers were found, filter orders by their user IDs.
       if (matchingUsers.length > 0) {
-        searchConditions.push({
-          user: {
-            $in: matchingUsers.map((user) => user._id),
-          },
-        });
+        query.user = {
+          $in: matchingUsers.map((user) => user._id),
+        };
+      } else {
+        // Force an empty result when no customer matches the search term.
+        query.user = {
+          $in: [],
+        };
       }
-
-      query.$or = searchConditions;
     }
 
     // Apply the selected order status filter.
@@ -101,7 +85,7 @@ export async function GET(req) {
       query.status = status;
     }
 
-    // Retrieve orders matching the search and status filters.
+    // Retrieve orders matching the current search and status filters.
     const orders = await Order.find(query)
       .populate("user", "name phone")
       .populate("items.course", "title slug")

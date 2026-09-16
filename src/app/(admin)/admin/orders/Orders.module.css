@@ -34,6 +34,10 @@
   line-height: 1.4;
 }
 
+.totalCount span:last-child {
+  transform: translateX(4px);
+}
+
 /* Filters */
 
 .filters {
@@ -364,10 +368,12 @@
 }
 
 .pagination button {
+  width: 100px;
+  height: 40px;
   border: none;
   background: #3b82f6;
   color: white;
-  padding: 0.7rem 1.4rem;
+  padding: 0;
   border-radius: 8px;
   cursor: pointer;
   transition:
@@ -449,7 +455,8 @@
   }
 
   .pagination button {
-    padding: 0.65rem 1rem;
+    width: 100px;
+    height: 40px;
   }
 }
 
@@ -490,5 +497,10 @@
     order: -1;
     width: 100%;
     text-align: center;
+  }
+
+  .pagination button {
+    width: 100px;
+    height: 40px;
   }
 }

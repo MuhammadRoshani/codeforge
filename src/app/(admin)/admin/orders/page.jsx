@@ -13,8 +13,7 @@ import styles from "./Orders.module.css";
  * - Displays orders with customer, course count, price, payment status,
  *   reference ID, creation date, and order details.
  * - Retrieves orders through the centralized Axios client.
- * - Supports server-side search by customer name, phone number,
- *   order status, order ID, and payment reference ID.
+ * - Supports server-side search by customer name and phone number.
  * - Delays search updates by 400 milliseconds to prevent unnecessary
  *   API requests while the administrator is typing.
  * - Supports server-side filtering by payment status.
@@ -175,7 +174,7 @@ export default function Orders() {
       <div className={styles.filters}>
         <input
           type="text"
-          placeholder="Search by name, phone, status, order ID or reference ID..."
+          placeholder="Search by name or phone..."
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           onMouseEnter={() => setIsSearchHovered(true)}
