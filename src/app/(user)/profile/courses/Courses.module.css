@@ -1,0 +1,589 @@
+.container {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    direction: ltr;
+    text-align: left;
+}
+
+/* Page Header */
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.2rem;
+}
+
+.title {
+    margin: 0;
+    color: #0f172a;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    margin: 0.55rem 0 0;
+    color: #64748b;
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* Course Count */
+
+.courseCount {
+    min-width: 100px;
+    padding: 0.8rem 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    box-sizing: border-box;
+    border: 1px solid #dbeafe;
+    border-radius: 11px;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.courseCount span {
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.courseCount small {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* Courses Grid */
+
+.grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+}
+
+/* Course Card */
+
+.courseCard {
+    min-width: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 17px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.courseCard:hover {
+    transform: translateY(-4px);
+    border-color: #dbeafe;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.09);
+}
+
+/* Course Cover */
+
+.coverWrapper {
+    position: relative;
+    width: 100%;
+    height: 210px;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+
+.cover {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.courseCard:hover .cover {
+    transform: scale(1.025);
+}
+
+/* Purchased Badge */
+
+.purchasedBadge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    background: #16a34a;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.18);
+}
+
+/* No Course Cover */
+
+.noCover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: #f1f5f9;
+    color: #64748b;
+    text-align: center;
+}
+
+.noCover span {
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.noCover p {
+    margin: 0;
+    padding: 0 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Course Content */
+
+.cardContent {
+    min-width: 0;
+    padding: 1.25rem 1.3rem 1.3rem;
+}
+
+.courseTitle {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 1.08rem;
+    font-weight: 750;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+/* Course Teacher */
+
+.teacher {
+    min-width: 0;
+    margin-top: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #475569;
+    font-size: 0.83rem;
+    font-weight: 600;
+}
+
+.teacherIcon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #eff6ff;
+    font-size: 0.95rem;
+}
+
+.teacher span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Course Description */
+
+.description {
+    display: -webkit-box;
+    min-height: 2.9rem;
+    margin: 0.8rem 0 0;
+    overflow: hidden;
+    color: #64748b;
+    font-size: 0.83rem;
+    font-weight: 400;
+    line-height: 1.7;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+   line-clamp: 2;
+}
+
+/* Card Footer */
+
+.cardFooter {
+    margin-top: 1.2rem;
+}
+
+.watchButton {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    box-sizing: border-box;
+    border: 1px solid #1d4ed8;
+    border-radius: 9px;
+    background: #1d4ed8;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+.watchButton span {
+    font-size: 1.05rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.watchButton:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+    box-shadow: 0 6px 14px rgba(29, 78, 216, 0.2);
+}
+
+.watchButton:hover span {
+    transform: translateX(3px);
+}
+
+.watchButton:active {
+    transform: translateY(1px) scale(0.985);
+    box-shadow: none;
+}
+
+/* Error State */
+
+.errorBox {
+    width: min(100%, 600px);
+    margin: 4rem auto;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #fee2e2;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    text-align: center;
+}
+
+.errorIcon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.errorBox h2 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 1.2rem;
+    font-weight: 750;
+}
+
+.errorBox p {
+    margin: 0.8rem 0 1.5rem;
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Retry Button */
+
+.retryButton {
+    min-width: 120px;
+    padding: 0.8rem 1.6rem;
+    border: none;
+    border-radius: 9px;
+    background: #dc2626;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition:
+        background 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+.retryButton:hover {
+    background: #b91c1c;
+    box-shadow: 0 6px 14px rgba(220, 38, 38, 0.18);
+}
+
+.retryButton:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow: none;
+}
+
+/* Empty State */
+
+.emptyState {
+    width: 100%;
+    min-height: 430px;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.emptyIcon {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #eff6ff;
+    font-size: 2.5rem;
+}
+
+.emptyState h2 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 1.35rem;
+    font-weight: 750;
+}
+
+.emptyState p {
+    width: min(100%, 520px);
+    margin: 0.75rem 0 1.5rem;
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.browseButton {
+    min-width: 145px;
+    padding: 0.8rem 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 9px;
+    background: #1d4ed8;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        background 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+.browseButton:hover {
+    background: #1e40af;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 16px rgba(29, 78, 216, 0.2);
+}
+
+.browseButton:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow: none;
+}
+
+/* Skeleton */
+
+.skeletonCard {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+}
+
+.skeletonImage {
+    width: 100%;
+    height: 210px;
+    background: linear-gradient(
+        90deg,
+        #f1f5f9 25%,
+        #e2e8f0 50%,
+        #f1f5f9 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonLoading 1.5s infinite;
+}
+
+.skeletonContent {
+    padding: 1.35rem;
+}
+
+.skeletonTitle {
+    width: 80%;
+    height: 22px;
+    border-radius: 6px;
+    background: #e2e8f0;
+    animation: skeletonLoading 1.5s infinite;
+}
+
+.skeletonText {
+    width: 55%;
+    height: 15px;
+    margin-top: 1rem;
+    border-radius: 6px;
+    background: #e2e8f0;
+    animation: skeletonLoading 1.5s infinite;
+}
+
+.skeletonButton {
+    width: 100%;
+    height: 44px;
+    margin-top: 1.5rem;
+    border-radius: 9px;
+    background: #e2e8f0;
+    animation: skeletonLoading 1.5s infinite;
+}
+
+@keyframes skeletonLoading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1.4rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .grid {
+        gap: 1.7rem 1.2rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .coverWrapper {
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .title {
+        font-size: 1.7rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .courseCount {
+        min-width: auto;
+    }
+
+    .coverWrapper {
+        height: 220px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .courseCount {
+        align-self: flex-start;
+    }
+
+    .emptyState {
+        min-height: 400px;
+        padding: 3rem 1.5rem;
+    }
+
+    .emptyState h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .title {
+        font-size: 1.45rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    .cardContent {
+        padding: 1.1rem;
+    }
+
+    .coverWrapper {
+        height: 190px;
+    }
+
+    .courseTitle {
+        font-size: 1rem;
+    }
+
+    .teacher {
+        font-size: 0.8rem;
+    }
+
+    .description {
+        font-size: 0.8rem;
+    }
+}
