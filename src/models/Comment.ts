@@ -1,4 +1,5 @@
 import mongoose, { type HydratedDocument, type Model } from "mongoose";
+import User from "@/models/User";
 
 /**
  * Comment Schema.
