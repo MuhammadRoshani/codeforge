@@ -1,0 +1,155 @@
+import connectDB from "@/configs/db";
+import { getCurrentUser } from "@/utils/auth";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import Order from "@/models/Order";
+import User from "@/models/User";
+
+/**
+ * ZarinPal Payment Request API.
+ *
+ * - Creates a payment request for an authenticated user's pending order.
+ * - The payable amount is always retrieved from the order stored in the database
+ * and is never trusted from the client.
+ */
+
+// Defines the structure of the payment request body.
+interface PaymentRequestBody {
+  orderId?: unknown;
+}
+
+interface ZarinPalPaymentRequestResponse {
+  data?: {
+    code?: number;
+    authority?: string;
+  };
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  try {
+    await connectDB();
+
+    // Validate the user's authentication.
+    const user = getCurrentUser(req);
+
+    if (!("success" in user)) {
+      return user;
+    }
+
+    const { orderId } = (await req.json()) as PaymentRequestBody;
+
+    if (!orderId) {
+      return NextResponse.json(
+        { success: false, message: "Order ID is required." },
+        { status: 400 },
+      );
+    }
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return NextResponse.json(
+        { success: false, message: "Order not found." },
+        { status: 404 },
+      );
+    }
+
+    // Ensure the order belongs to the authenticated user.
+    if (order.user.toString() !== user.userId.toString()) {
+      return NextResponse.json(
+        { success: false, message: "Forbidden." },
+        { status: 403 },
+      );
+    }
+
+    // Only pending orders can start a payment process.
+    if (order.status !== "pending") {
+      return NextResponse.json(
+        { success: false, message: "This order is not payable." },
+        { status: 400 },
+      );
+    }
+
+    // Complete free orders without creating a ZarinPal payment request.
+    if (order.totalPrice === 0) {
+      const user = await User.findById(order.user);
+
+      if (!user) {
+        return NextResponse.json(
+          { success: false, message: "User account not found." },
+          { status: 404 },
+        );
+      }
+
+      const existingCourseIds = new Set(
+        user.purchasedCourses.map((courseId) => courseId.toString()),
+      );
+
+      const newCourses = order.items
+        .map((item) => item.course)
+        .filter((courseId) => !existingCourseIds.has(courseId.toString()));
+
+      user.purchasedCourses.push(...newCourses);
+
+      await user.save();
+
+      order.status = "paid";
+      order.paidAt = new Date();
+
+      await order.save();
+
+      return NextResponse.json({
+        success: true,
+        message: "Free course added successfully.",
+        freeOrder: true,
+      });
+    }
+
+    const response = await fetch(
+      "https://sandbox.zarinpal.com/pg/v4/payment/request.json",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          merchant_id: process.env.ZARINPAL_MERCHANT_ID,
+          currency: "IRT",
+          amount: order.totalPrice,
+          callback_url: process.env.ZARINPAL_CALLBACK_URL,
+          description: `Order ${order._id}`,
+        }),
+      },
+    );
+
+    const result = (await response.json()) as ZarinPalPaymentRequestResponse;
+
+    console.log("ZarinPal payment request response:", result);
+
+    if (!response.ok || result?.data?.code !== 100) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Payment request failed.",
+        },
+        { status: 400 },
+      );
+    }
+
+    order.authority = result.data.authority ?? null;
+
+    await order.save();
+
+    return NextResponse.json({
+      success: true,
+      paymentUrl: `https://sandbox.zarinpal.com/pg/StartPay/${result.data.authority}`,
+    });
+  } catch (error: unknown) {
+    console.error("ZarinPal payment request error:", error);
+
+    return NextResponse.json(
+      { success: false, message: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
+}

@@ -28,8 +28,15 @@
     "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.6.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/sanitize-html": "^2.16.1",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "10.8.0",
-    "eslint-config-next": "16.2.12"
+    "eslint-config-next": "16.2.12",
+    "typescript": "^6.0.3"
   }
 }
