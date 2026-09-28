@@ -11,11 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import api from "@/utils/axios";
 import toast from "react-hot-toast";
-import type {
-  AuthMeResponse,
-  AuthUser,
-  LogoutResponse,
-} from "@/types/auth";
+import type { AuthMeResponse, AuthUser, LogoutResponse } from "@/types/auth";
 
 /**
  * Authentication context.
@@ -55,7 +51,11 @@ interface AuthProviderProps {
 // Provides authentication state and actions to the application.
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  // Authentication starts in a loading state until the current session
+  // has been checked through the /auth/me endpoint.
+  const [isLoading, setIsLoading] = useState(true);
+
   const router = useRouter();
 
   useEffect(() => {

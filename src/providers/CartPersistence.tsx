@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "@/redux/slices/cartSlice";
+import { setCart, clearCart } from "@/redux/slices/cartSlice";
 import type { CartCourse } from "@/redux/slices/cartSlice";
 import type { AppDispatch, RootState } from "@/redux/store";
+import useAuth from "@/hooks/useAuth";
 
 /**
  * Cart Persistence Provider.
@@ -13,33 +14,30 @@ import type { AppDispatch, RootState } from "@/redux/store";
  * localStorage so that cart items remain available after page refreshes
  * or when the user returns to the application later.
  *
- * The persistence flow has two stages:
+ * The persistence flow is associated with the authenticated user:
  *
- * 1. Initial restoration:
- *    When the application starts, the component reads the previously saved
- *    cart from localStorage and restores it into the Redux store through the
- *    setCart action.
+ * 1. Initial authentication:
+ *    The component waits until AuthProvider finishes checking the current
+ *    authentication state.
  *
- * 2. Continuous persistence:
- *    After the initial restoration has completed, every change to the Redux
- *    cart is serialized and saved back to localStorage.
+ * 2. User-specific restoration:
+ *    When an authenticated user is available, the component reads that
+ *    user's cart from a user-specific localStorage key and restores it into
+ *    the Redux store.
  *
- * - The initialization flag is important because Redux initially starts with
- * an empty cart. Without this flag, the persistence effect could save the
- * initial empty Redux state to localStorage before the previously saved cart
- * has been restored, which would overwrite the user's existing cart.
+ * 3. Continuous persistence:
+ *    Changes to the authenticated user's Redux cart are saved back to that
+ *    user's localStorage entry.
  *
- * useRef is used for the initialization flag because changing the flag should
- * not cause a component re-render. The value only needs to persist between
- * renders so the persistence effect can determine whether initialization has
- * completed.
+ * 4. Logout:
+ *    When the authenticated user becomes null, the visible Redux cart is
+ *    cleared. The user's previously saved localStorage cart is intentionally
+ *    preserved so it can be restored when the same user logs in again.
  *
- * - This component does not render any visible UI. It only performs the
- * synchronization between Redux and localStorage and is mounted globally
- * inside the application's root component tree.
+ * - Different authenticated users therefore have completely separate
+ * localStorage cart entries and cannot see each other's carts.
  *
- * Important:
- * localStorage is used only for client-side cart persistence. Its data is
+ * - localStorage is used only for client-side cart persistence. Its data is
  * never trusted by the backend for payment calculations. When an order is
  * created, the server retrieves the actual course information and prices
  * from MongoDB and calculates the final payable amount independently.
@@ -64,6 +62,11 @@ function isCartCourseArray(value: unknown): value is CartCourse[] {
   );
 }
 
+// Creates a unique localStorage key for the authenticated user's cart.
+function getCartStorageKey(phone: string): string {
+  return `cart_${phone}`;
+}
+
 export default function CartPersistence() {
   // Provides access to Redux actions for updating the cart state.
   const dispatch = useDispatch<AppDispatch>();
@@ -71,41 +74,72 @@ export default function CartPersistence() {
   // Retrieves the current cart items from the Redux store.
   const cart = useSelector((state: RootState) => state.cart.items);
 
-  // Tracks whether the initial cart restoration has completed.
-  const isInitialized = useRef(false);
+  // Retrieves the current authentication state.
+  const { user, isLoading } = useAuth();
 
-  //  Restore the previously saved cart from localStorage,
-  //  when the application initializes.
+  /**
+   * Restores the authenticated user's cart when authentication
+   * state has finished loading.
+   */
   useEffect(() => {
+    // Wait until the authentication state is fully resolved.
+    if (isLoading) return;
+
+    // No authenticated user means there is no visible cart.
+    if (!user) {
+      dispatch(clearCart());
+      return;
+    }
+
     try {
-      const savedCart = localStorage.getItem("cart");
+      const storageKey = getCartStorageKey(user.phone);
+      const savedCart = localStorage.getItem(storageKey);
 
-      if (savedCart) {
-        const parsedCart: unknown = JSON.parse(savedCart);
+      if (!savedCart) {
+        // The authenticated user has no previously stored cart.
+        dispatch(clearCart());
+        return;
+      }
 
-        // Restore the cart only when the stored value is a valid array.
-        if (isCartCourseArray(parsedCart)) {
-          dispatch(setCart(parsedCart));
-        }
+      const parsedCart: unknown = JSON.parse(savedCart);
+
+      // Restore the cart only when the stored value is a valid array.
+      if (isCartCourseArray(parsedCart)) {
+        dispatch(setCart(parsedCart));
+      } else {
+        // Remove invalid cart data so it cannot affect future sessions.
+        localStorage.removeItem(storageKey);
+        dispatch(clearCart());
       }
     } catch (error: unknown) {
       // Remove corrupted cart data so it cannot cause repeated parsing errors.
       console.error("Failed to load cart:", error);
-      localStorage.removeItem("cart");
-    } finally {
-      // Allow the persistence effect to save future Redux cart changes.
-      isInitialized.current = true;
+
+      const storageKey = getCartStorageKey(user.phone);
+
+      localStorage.removeItem(storageKey);
+      dispatch(clearCart());
     }
-  }, [dispatch]);
+  }, [dispatch, isLoading, user]);
 
-  // Save Redux cart changes to localStorage after the initial restoration
-  // has completed.
+  /**
+   * Save the authenticated user's cart changes to localStorage.
+   *
+   * The cart is intentionally not saved when there is no authenticated user.
+   * This prevents the empty Redux cart produced during logout from
+   * overwriting the user's previously stored cart.
+   */
   useEffect(() => {
-    // Prevent the initial Redux state from overwriting saved cart data.
-    if (!isInitialized.current) return;
+    // Do not persist anything while authentication is still being resolved.
+    if (isLoading) return;
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    // Never persist a cart for an unauthenticated user.
+    if (!user) return;
+
+    const storageKey = getCartStorageKey(user.phone);
+
+    localStorage.setItem(storageKey, JSON.stringify(cart));
+  }, [cart, isLoading, user]);
 
   // This component only handles cart persistence and renders no UI.
   return null;

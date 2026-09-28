@@ -36,7 +36,8 @@ import "./globals.css";
  *   other user feedback throughout the application.
  *
  * The provider hierarchy is important because CartPersistence depends on the
- * Redux store and therefore must be rendered inside ReduxProvider.
+ * Redux store and authentication state. Therefore, AuthProvider must wrap
+ * CartPersistence, while ReduxProvider must also wrap CartPersistence.
  *
  * All page content is rendered inside AuthProvider so that client components
  * can access the authentication state wherever required.
@@ -70,19 +71,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
 
       <body>
-        {/* Provides the Redux store to the entire application. */}
-        <ReduxProvider>
-          {/* Restores and persists the Redux shopping cart through localStorage. */}
-          <CartPersistence />
+        {/* Provides authentication state and actions to the application. */}
+        <AuthProvider>
+          {/* Provides the Redux store to the entire application. */}
+          <ReduxProvider>
+            {/* Restores and persists the Redux shopping cart through localStorage. */}
+            <CartPersistence />
 
-          {/* Provides authentication state and actions to the application. */}
-          <AuthProvider>
             {children}
 
             {/* Provides globally accessible toast notifications. */}
             <Toaster position="top-center" />
-          </AuthProvider>
-        </ReduxProvider>
+          </ReduxProvider>
+        </AuthProvider>
       </body>
     </html>
   );
