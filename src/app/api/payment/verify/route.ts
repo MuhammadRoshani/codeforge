@@ -2,6 +2,7 @@ import connectDB from "@/configs/db";
 import Order from "@/models/Order";
 import { NextResponse } from "next/server";
 import User from "@/models/User";
+import Course from "@/models/Course";
 
 /**
  * ZarinPal Payment Verification API.
@@ -160,6 +161,20 @@ export async function POST(req: Request) {
     user.purchasedCourses.push(...newCourses);
 
     await user.save();
+
+    // Increment the student count only for courses newly purchased by this user.
+    if (newCourses.length > 0) {
+      await Course.updateMany(
+        {
+          _id: { $in: newCourses },
+        },
+        {
+          $inc: {
+            studentsCount: 1,
+          },
+        },
+      );
+    }
 
     // Finalize the order after the user's purchased courses are updated.
     order.status = "paid";
