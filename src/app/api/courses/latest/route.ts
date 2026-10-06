@@ -23,7 +23,7 @@ import type { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
-    await connectDB;
+    await connectDB();
 
     const { searchParams } = new URL(req.url);
 
